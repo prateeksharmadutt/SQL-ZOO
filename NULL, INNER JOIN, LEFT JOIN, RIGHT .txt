@@ -1,0 +1,151 @@
+NULL, INNER JOIN, LEFT JOIN, RIGHT JOIN   
+
+
+
+
+1.
+List the teachers who have NULL for their department.
+
+Why we cannot use =
+
+
+
+ans)  Select name from teacher where department is NULL
+
+
+Submit SQLrestore default
+Error:
+Unknown column 'department' in 'where clause'
+2.
+Note the INNER JOIN misses the teachers with no department and the departments with no teacher.
+
+ans)SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
+Submit SQLrestore default
+Correct answer
+
+name	name
+Shrivell	Computing
+Throd	Computing
+Splint	Computing
+Cutflower	Design
+3.
+Use a different JOIN so that all teachers are listed.
+
+ans)  select teacher.name,dept.name from teacher left join dept on (teacher.dept = dept.id)
+
+
+Submit SQLrestore default
+Correct answer
+name	name
+Shrivell	Computing
+Throd	Computing
+Splint	Computing
+Spiregrain	
+Cutflower	Design
+Deadyawn	
+
+4.
+Use a different JOIN so that all departments are listed.
+
+ans)select teacher.name,dept.name from teacher right join dept on(teacher.dept=dept.id)
+
+
+Submit SQLrestore default
+Correct answer
+name	name
+Shrivell	Computing
+Throd	Computing
+Splint	Computing
+Cutflower	Design
+Engineering
+Using the COALESCE function
+
+5.
+Use COALESCE to print the mobile number. Use the number '07986 444 2266' if there is no number given. Show teacher name and mobile number or '07986 444 2266'
+
+ans)select name,coalesce(mobile,'07986 444 2266')from teacher;
+
+
+Submit SQLrestore default
+Correct answer
+name	coalesce(mobi..
+Shrivell	07986 555 1234
+Throd	07122 555 1920
+Splint	07986 444 2266
+Spiregrain	07986 444 2266
+Cutflower	07996 555 6574
+Deadyawn	07986 444 2266
+6.
+Use the COALESCE function and a LEFT JOIN to print the teacher name and department name. Use the string 'None' where there is no department.
+
+ans)select teacher.name, COALESCE( dept.name,'None') from teacher left join dept 
+ON (teacher.dept=dept.id)
+
+
+
+Submit SQLrestore default
+Correct answer
+name	COALESCE( dep..
+Shrivell	Computing
+Throd	Computing
+Splint	Computing
+Spiregrain	None
+Cutflower	Design
+Deadyawn	None
+7.
+Use COUNT to show the number of teachers and the number of mobile phones.
+
+ANS)  select count(name),count(mobile)from teacher
+
+
+Submit SQLrestore default
+Correct answer
+count(name)	count(mobile)
+6	3
+
+8.
+Use COUNT and GROUP BY dept.name to show each department and the number of staff. Use a RIGHT JOIN to ensure that the Engineering department is listed.
+
+ANS) select dept.name, count(teacher.dept) from teacher right join dept on (teacher.dept = dept.id) group by dept.name
+
+ 
+Submit SQLrestore default
+Correct answer
+name	count(teacher..
+Computing	3
+Design	1
+Engineering	0
+Using CASE
+
+9.
+Use CASE to show the name of each teacher followed by 'Sci' if the teacher is in dept 1 or 2 and 'Art' otherwise.
+
+ANS) select name,
+case
+ when dept = 1 or dept = 2 then 'Sci'
+else 'Art'
+end
+from teacher;
+
+Submit SQLrestore default
+Correct answer
+name	case when d..
+Shrivell	Sci
+Throd	Sci
+Splint	Sci
+Spiregrain	Art
+Cutflower	Sci
+Deadyawn	Art
+
+10.
+Use CASE to show the name of each teacher followed by 'Sci' if the teacher is in dept 1 or 2, show 'Art' if the teacher's dept is 3 and 'None' otherwise.
+
+ANS)select name,
+case
+when dept=1 or dept=2 then 'sci'
+when dept=3 then 'Art' else 'None'
+end
+ from teacher;
